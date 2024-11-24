@@ -4,11 +4,11 @@ import React,{useState} from 'react'
 export default function EnglishLoginPage({navigation}) {
   const [selectedRole, setSelectedRole] = useState("Business");
   const [username,setUserName] = useState('');
-  const [Password,setPassword] = useState('');
+  const [password,setPassword] = useState('');
   const handleLogin = ()=>{
     const user = {
         username:username,
-        Password:Password,
+        password:password,
         selectedRole:selectedRole
     }
    // console.log(user);
