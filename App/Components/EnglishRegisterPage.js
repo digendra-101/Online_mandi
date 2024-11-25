@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Picker } from 'react-native';
 import React, { useState } from 'react';
-
+import axios from "axios";
 export default function RegisterPage({ navigation }) {
   const [selectedRole, setSelectedRole] = useState("Business");
   const [name,setName] = useState('');
