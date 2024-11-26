@@ -38,30 +38,38 @@ app.listen(PORT,()=>{
 console.log("how1");
 
 console.log("me")
-app.post("/register", async (req,res)=>{
-    //console.log("how are you");
-    try{
-       // console.log("shahid");
-       const {name,email,password,role} = req.body;
-       //check the email are registered or not
-      // console.log(name);
-       //console.log("hello");
-       const findemail = await User.findOne({email,role});
-       if(findemail){
-        return res.status(400).json("email is already registered")
-       }
-       // create a new user
-       const newuser = new User({name,email,password,role});
-       
-       await newuser.save();
-       
+app.post("/register", async (req, res) => {
+    try {
+      const { name, email, password, role } = req.body;
+      console.log(role);
+      // Validate required fields
+      if (!name || !email || !password || !role) {
+        return res.status(400).json({ message: "All fields (name, email, password, role) are required" });
+      }
+      
+      // Check if email is already registered
+      const findemail = await User.findOne({ email });
+      console.log(findemail);
+      if (findemail) {
+        return res.status(400).json({ message: "Email is already registered" });
+      }
+  
+      // Hash the password before saving
+      console.log(findemail,"kol");
+      const hashedPassword = bcrypt.hashSync(password, 10);
+  
+      // Create a new user
+      const newuser = new User({ name, email, password: hashedPassword, role });
+      console.log("popl");
+      await newuser.save();
+  
+      res.status(201).json({ message: "User registered successfully" });
+    } catch (err) {
+      console.log("Something went wrong during registration:", err);
+      res.status(500).json({ message: "Registration failed" });
     }
-    catch(err){
-        console.log("something error on register",err);
-        res.status(500).json("not registered");
-
-    }
-})
+  });
+  
 
 app.post("/login",async (req,res)=>{
     try{
