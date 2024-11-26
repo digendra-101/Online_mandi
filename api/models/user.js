@@ -18,5 +18,5 @@ role:{
     required:true
 }
 })
-const User = mongoose.model("User",userSchema);
+const User = mongoose.model("users",userSchema);
 export default  User;
