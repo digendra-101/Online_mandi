@@ -1,31 +1,31 @@
-import { View, Text ,Image, TextInput,StyleSheet, TouchableOpacity,Picker} from 'react-native'
+import { View, Text ,Image, TextInput,StyleSheet, TouchableOpacity} from 'react-native'
 import React,{useState} from 'react'
+import { Picker } from '@react-native-picker/picker';
+import { Alert } from 'react-native';
 import axios from "axios";
 
 export default function EnglishLoginPage({navigation}) {
-  const [selectedRole, setSelectedRole] = useState("Business");
+  const [role, setRole] = useState('');
   const [username,setUserName] = useState('');
   const [password,setPassword] = useState('');
   const handleLogin = ()=>{
     const user = {
         username:username,
         password:password,
-        selectedRole:selectedRole
+        role:role
     }
-   // console.log(user);
-    axios.post("http://10.0.2.2:8000/login",user).then((response)=>{
-        //console.log(response);
-        
-       
-      
-
-        // Save the user ID in AsyncStorage or use it as needed
+  console.log(role);
+  try{
+    axios.post("http://10.0.2.2:8000/login",user)
+  
+    
         
         navigation.replace("Dashboard");
-    }).catch((err)=>{
+    }
+    catch(err){
         Alert.alert("Login Error","Invalid Email");
         console.log(err);
-    });
+    }
 }
 
   return (
@@ -41,12 +41,12 @@ export default function EnglishLoginPage({navigation}) {
           setUserName(text)
         }}/>
         <Text>Enter Password</Text>
-        <TextInput placeholder='Password' style={styles.inputForn} value={Password} onChangeText={(text)=>setPassword(text)}/ >
+        <TextInput placeholder='Password' style={styles.inputForn} value={password} onChangeText={(text)=>setPassword(text)}/ >
         <Text>Select Role</Text>
           <Picker
-            selectedValue={selectedRole}
+            selectedValue={role}
             style={styles.picker}
-            onValueChange={(itemValue) => setSelectedRole(itemValue)}
+            onValueChange={(itemValue) => setRole(itemValue)}
           >
             <Picker.Item label="Business" value="Business" />
             <Picker.Item label="Farmer" value="Farmer" />
