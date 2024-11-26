@@ -1,20 +1,26 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Picker } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
+import { Picker } from '@react-native-picker/picker';
+import { Alert } from 'react-native';
+
 import axios from "axios";
 export default function RegisterPage({ navigation }) {
-  const [selectedRole, setSelectedRole] = useState("Business");
+  const [role, setRole] = useState('');
   const [name,setName] = useState('');
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
+
   const handleRegister =  ()=>{
+    console.log(role,"jio");
     console.log("how are you");
+    
     //console.log(name);
     const user = {
         name:name,
         email:email,
     password:password,
-selectedRole:selectedRole}
-   // console.log(user);
+role:role}
+
     //post request to the backend
     try{
         axios.post("http://10.0.2.2:8000/register",user);
@@ -22,7 +28,7 @@ selectedRole:selectedRole}
     setEmail("");
     setName("");
 setPassword("");
-setSelectedRole("");
+setRole("");
 navigation.navigate("EnglishLoginPage");
 
     }
@@ -60,9 +66,12 @@ console.log("error in registration",err);
           
           <Text>Select Role</Text>
           <Picker
-            selectedValue={selectedRole}
+            selectedValue={role}
             style={styles.picker}
-            onValueChange={(itemValue) => setSelectedRole(itemValue)}
+            onValueChange={(itemValue) => {
+              setRole(itemValue);
+              console.log("Selected Role:", itemValue);
+            }}
           >
             <Picker.Item label="Business" value="Business" />
             <Picker.Item label="Farmer" value="Farmer" />
@@ -70,10 +79,7 @@ console.log("error in registration",err);
           
           <TouchableOpacity
             style={styles.submitButton}
-            onPress={() => {
-              console.log(`Name, Email, Password, Role: ${selectedRole}`);
-              navigation.navigate("Dashboard");
-            }}
+            onPress = {handleRegister}
           >
             <Text style={{ color: "white" }}>Register</Text>
           </TouchableOpacity>
