@@ -1,7 +1,29 @@
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
+import React, { useState } from 'react';
 
-export default function AddProduct({ navigation }) {  
+export default function AddProduct({ navigation }) {
+  const [productName, setProductName] = useState('');
+  const [productCategory, setProductCategory] = useState('');
+  const [productPrice, setProductPrice] = useState('');
+  const [productQuantity, setProductQuantity] = useState('');
+
+  const handleAddProduct = () => {
+    // Basic validation
+    if (!productName || !productCategory || !productPrice || !productQuantity) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    // Here you would typically send the product data to your backend or state management
+    Alert.alert('Success', `Product ${productName} added successfully!`);
+
+    // Clear the input fields
+    setProductName('');
+    setProductCategory('');
+    setProductPrice('');
+    setProductQuantity('');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.searchContainer}>
@@ -14,47 +36,69 @@ export default function AddProduct({ navigation }) {
         </TouchableOpacity>
       </View>
 
-     
       <View style={styles.mainContent}>
-        <Text style={styles.title}>Welcome to the AddProduct</Text>
-     
+        <Text style={styles.title}>Add Product</Text>
+
+        <TextInput
+          placeholder='Product Name'
+          style={styles.input}
+          value={productName}
+          onChangeText={setProductName}
+        />
+        <TextInput
+          placeholder='Category'
+          style={styles.input}
+          value={productCategory}
+          onChangeText={setProductCategory}
+        />
+        <TextInput
+          placeholder='Price'
+          style={styles.input}
+          value={productPrice}
+          onChangeText={setProductPrice}
+          keyboardType='numeric'
+        />
+        <TextInput
+          placeholder='Quantity'
+          style={styles.input}
+          value={productQuantity}
+          onChangeText={setProductQuantity}
+          keyboardType='numeric'
+        />
+
+        <TouchableOpacity style={styles.addButton} onPress={handleAddProduct}>
+          <Text style={styles.addButtonText}>Add Product</Text>
+        </TouchableOpacity>
       </View>
 
-     
       <View style={styles.nev}>
-        
-            <TouchableOpacity onPress={()=>{navigation.navigate("Dashboard")}}>
-            <View style={styles.navItem}>
+        <TouchableOpacity onPress={() => { navigation.navigate("Dashboard") }}>
+          <View style={styles.navItem}>
             <Image source={require("../Assets/Image/home-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Dashboard</Text>
+            <Text style={styles.navText}>Dashboard</Text>
           </View>
-            </TouchableOpacity>
-          
-        <TouchableOpacity onPress={()=>{navigation.navigate("AddProduct")}}>
-        <View style={styles.navItem}>
-          <Image source={require("../Assets/Image/add-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Add Product</Text>
-        </View>
         </TouchableOpacity>
-       
 
-       <TouchableOpacity onPress={()=>{navigation.navigate('Inventory')}}>
-       <View style={styles.navItem}>
-          <Image source={require("../Assets/Image/inventory-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Inventory</Text>
-        </View>
-
-       </TouchableOpacity>
-        
-
-        <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
-
-        <View style={styles.navItem}>
-          <Image source={require("../Assets/Image/profile-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Profile</Text>
-        </View>
+        <TouchableOpacity onPress={() => { navigation.navigate("AddProduct") }}>
+          <View style={styles.navItem}>
+            <Image source={require("../Assets/Image/add-icon.png")} style={styles.icon} />
+            <Text style={styles.navText}>Add Product</Text>
+          </View>
         </TouchableOpacity>
-        
+
+        <TouchableOpacity onPress={() => { navigation.navigate('Inventory') }}>
+          <View style={styles.navItem}>
+            <Image source={require("../Assets/Image/inventory-icon.png")} style={styles.icon} />
+            <Text style={styles.navText}>Inventory</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => { navigation.navigate("Profile") }}>
+          <View style={styles.navItem}>
+            <Image source={require("../Assets/Image/profile-icon.png")} style={styles.icon} />
+            <Text style={styles.navText}>Profile</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -69,8 +113,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     display: "flex",
     flexDirection: "row",
-    backgroundColor:"#4CAF50",
-    
+    backgroundColor: "#4CAF50",
   },
   searchInput: {
     paddingTop: 10,
@@ -99,7 +142,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     backgroundColor: 'white',
     paddingVertical: 10,
-    position: 'absolute', // Changed to absolute to fix it at the bottom
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
@@ -117,12 +160,33 @@ const styles = StyleSheet.create({
     color: "black",
   },
   mainContent: {
-    flex: 1, // Ensure the main content takes the remaining space
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 20,
   },
   title: {
     fontSize: 20,
     marginBottom: 20,
+  },
+  input: {
+    width: '100%',
+    padding: 10,
+    marginBottom: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    backgroundColor: '#fff',
+  },
+  addButton: {
+    backgroundColor: '#4CAF50',
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '100%',
+  },
+  addButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });

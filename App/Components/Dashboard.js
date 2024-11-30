@@ -1,60 +1,75 @@
-import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TextInput, Button, TouchableOpacity } from 'react-native';
 import React from 'react';
+import TextToAudio from './TextToSpeach';
 
-export default function Dashboard({ navigation }) {  
+export default function Dashboard({ navigation }) {
+  const [text, setText] = React.useState('');
+
+  const handleSpeak = () => {
+    if (!text.trim()) {
+      alert('Please enter text to speak!');
+      return;
+    }
+    TextToAudio.speak(text);
+  };
+
   return (
     <View style={styles.container}>
+      {/* Search Section */}
       <View style={styles.searchContainer}>
         <TextInput
-          placeholder='Search'
+          placeholder="Search"
           style={styles.searchInput}
         />
-        <TouchableOpacity style={styles.languageButton} onPress={() => { navigation.navigate("EnglishLoginPage") }}>
-          <Text style={{ color: "white" }}>Search</Text>
+        <TouchableOpacity
+          style={styles.languageButton}
+          onPress={() => {
+            navigation.navigate('EnglishLoginPage');
+          }}
+        >
+          <Text style={{ color: 'white' }}>Search</Text>
         </TouchableOpacity>
       </View>
 
-     
+      {/* Main Content */}
       <View style={styles.mainContent}>
         <Text style={styles.title}>Welcome to the Dashboard</Text>
-     
+        <TextInput
+          placeholder="Enter text to convert to audio"
+          value={text}
+          onChangeText={setText}
+          style={styles.input}
+        />
+        <Button title="Speak" onPress={handleSpeak} />
+        <Button title="Stop" onPress={TextToAudio.stop} />
       </View>
 
-     
+      {/* Navigation Bar */}
       <View style={styles.nev}>
-        
-            <TouchableOpacity onPress={()=>{navigation.navigate("Dashboard")}}>
-            <View style={styles.navItem}>
-            <Image source={require("../Assets/Image/home-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Dashboard</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Dashboard')}>
+          <View style={styles.navItem}>
+            <Image source={require('../Assets/Image/home-icon.png')} style={styles.icon} />
+            <Text style={styles.navText}>Dashboard</Text>
           </View>
-            </TouchableOpacity>
-          
-        <TouchableOpacity onPress={()=>{navigation.navigate("AddProduct")}}>
-        <View style={styles.navItem}>
-          <Image source={require("../Assets/Image/add-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Add Product</Text>
-        </View>
         </TouchableOpacity>
-       
-
-       <TouchableOpacity onPress={()=>{navigation.navigate('Inventory')}}>
-       <View style={styles.navItem}>
-          <Image source={require("../Assets/Image/inventory-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Inventory</Text>
-        </View>
-
-       </TouchableOpacity>
-        
-
-        <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
-
-        <View style={styles.navItem}>
-          <Image source={require("../Assets/Image/profile-icon.png")} style={styles.icon} />
-          <Text style={styles.navText}>Profile</Text>
-        </View>
+        <TouchableOpacity onPress={() => navigation.navigate('AddProduct')}>
+          <View style={styles.navItem}>
+            <Image source={require('../Assets/Image/add-icon.png')} style={styles.icon} />
+            <Text style={styles.navText}>Add Product</Text>
+          </View>
         </TouchableOpacity>
-        
+        <TouchableOpacity onPress={() => navigation.navigate('Inventory')}>
+          <View style={styles.navItem}>
+            <Image source={require('../Assets/Image/inventory-icon.png')} style={styles.icon} />
+            <Text style={styles.navText}>Inventory</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+          <View style={styles.navItem}>
+            <Image source={require('../Assets/Image/profile-icon.png')} style={styles.icon} />
+            <Text style={styles.navText}>Profile</Text>
+          </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -66,63 +81,62 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   searchContainer: {
-    alignItems: "center",
-    display: "flex",
-    flexDirection: "row",
-    backgroundColor:"#4CAF50",
-    
+    alignItems: 'center',
+    display: 'flex',
+    flexDirection: 'row',
+    backgroundColor: '#4CAF50',
   },
   searchInput: {
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingVertical: 10,
     paddingLeft: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
+    margin: 10,
     borderRadius: 25,
-    backgroundColor: "lightgray",
+    backgroundColor: 'lightgray',
     width: 250,
   },
   languageButton: {
-    backgroundColor: "gray",
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
+    backgroundColor: 'gray',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 50,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 5,
+    margin: 10,
   },
   nev: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     backgroundColor: 'white',
     paddingVertical: 10,
-    position: 'absolute', // Changed to absolute to fix it at the bottom
+    position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
   },
   navItem: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   icon: {
     width: 25,
     height: 25,
   },
   navText: {
-    color: "black",
+    color: 'black',
   },
   mainContent: {
-    flex: 1, // Ensure the main content takes the remaining space
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 60, // Avoid overlap with navigation bar
   },
   title: {
     fontSize: 20,
     marginBottom: 20,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 10,
+    width: '80%',
   },
 });
