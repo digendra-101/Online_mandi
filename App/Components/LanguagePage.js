@@ -1,46 +1,45 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
-import EnglishLoginPage from './EnglishLoginPage';
+import React from 'react';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-
-export default function LanguagePage({ navigation }) {
-   
+const LanguagePage = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={{display:'flex', justifyContent:'center',alignItems:"center" ,  flexDirection:"column", marginTop:200}}> 
-        <Text >अपनी भाषा चुनें </Text>
-      <Text>(choose your language)</Text>
-      </View>
-      
-      <View style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
-        <TouchableOpacity style={styles.languageButton}><Text style={{color:"white"}}>   हिन्दी   </Text></TouchableOpacity>
-      <TouchableOpacity style={styles.languageButton} onPress={()=>{navigation.navigate("EnglishLoginPage")}}><Text style={{color:"white"}}>English</Text></TouchableOpacity>
-      </View>
-      <Image source={require("./../Assets/Image/language-page-img.png")} style={{width:300,height:300 ,marginLeft:50 , marginTop:70}}></Image>
-      
-      <StatusBar style="auto" />
+      <Text style={styles.title}>Select Your Language</Text>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => navigation.navigate('Login')} // Navigate to English Login Page
+      >
+        <Text style={styles.buttonText}>English</Text>
+      </TouchableOpacity>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => navigation.navigate('Login')} // Redirect to English Login Page
+      >
+        <Text style={styles.buttonText}>हिन्दी</Text>
+      </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-
-  languageButton:{
-    backgroundColor:"black",
-    paddingTop:10,
-    paddingBottom:10,
-    paddingLeft:20,
-    paddingRight:20,
-    borderRadius:10,
-    marginTop:30,
-    marginBottom:10,
-    marginLeft:20
-
-
-  }
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: 'black',
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+  },
+  buttonText: {
+    color: 'white',
+  },
 });
 
+export default LanguagePage;

@@ -1,4 +1,4 @@
-// TextToAudio.js
+
 import * as Speech from 'expo-speech';
 
 const TextToAudio = {
