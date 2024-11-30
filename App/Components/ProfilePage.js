@@ -1,25 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import BottomNavBar from './../Components/BottomNavBar'; // Adjust the path as necessary
 
 const ProfilePage = ({ currentUser , navigation }) => {
-  const [profileData, setProfileData] = useState(currentUser ?.profile || {});
-
-  useEffect(() => {
-    setProfileData(currentUser ?.profile || {});
-  }, [currentUser ]);
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile Page</Text>
       
       <Text style={styles.label}>Username:</Text>
-      <Text style={styles.info}>{profileData.username || 'N/A'}</Text>
+      <Text style={styles.info}>{currentUser ?.username || 'N/A'}</Text>
       
       <Text style={styles.label}>Email:</Text>
-      <Text style={styles.info}>{profileData.email || 'N/A'}</Text>
+      <Text style={styles.info}>{currentUser ?.email || 'N/A'}</Text>
 
-      {/* Add the Bottom Navigation Bar */}
       <BottomNavBar navigation={navigation} />
     </View>
   );
